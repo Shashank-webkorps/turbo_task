@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  teacher: MyString
+  school: MyString
+  school_year: 2022-05-04
+
+two:
+  teacher: MyString
+  school: MyString
+  school_year: 2022-05-04

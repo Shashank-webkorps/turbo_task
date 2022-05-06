@@ -1,0 +1,43 @@
+<div class="flex justify-end mb-1">
+  <%= form_with url: list_student_details_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "student_details" } do |form| %>
+    <%= form.text_field :q,
+      placeholder: "Search",
+      class: "border border-blue-500 rounded p-2",
+      autocomplete: "off",
+      data: { action: "input->search-form#search" }
+    %>
+  <% end %>
+</div>
+<%= turbo_frame_tag "student_details", class: "rounded border-b border-gray-200" do %>
+  <table class="min-w-full bg-white border border-blue-300">
+    <thead class="bg-blue-800 text-white">
+      <tr>
+        <th id="student-details-name" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer relative">
+          <%= sort_indicator if session.dig('student_detail_filters', 'column') == "teacher" %>
+          <%= build_order_link(column: "teacher", label: "Teacher") %>
+        </th>
+        <th id="student-details-team" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer relative">
+          <%= sort_indicator if session.dig('student_detail_filters', 'column') == "school" %>
+          <%= build_order_link(column: "school", label: "School") %>
+        </th>
+        <th id="student-details-school-year" class="text-left py-3 px-6 uppercase font-semibold text-sm hover:cursor-pointer relative">
+          <%= sort_indicator if session.dig('student_detail_filters', 'column') == "school_year" %>
+          <%= build_order_link(column: "school_year", label: "school Year") %>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="text-gray-700">
+      <% student_details.each do |student_detail| %>
+        <tr>
+          <td class="text-left py-3 px-6 bg-gray-200 border-b border-r border-blue-300"><%= student_detail.teacher %></td>
+          <td class="text-left py-3 px-6 bg-gray-200 border-b border-r border-blue-300"><%= student_detail.school %></td>
+          <td class="text-left py-3 px-6 bg-gray-200 border-b border-r border-blue-300"><%= student_detail.school_year %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="flex justify-end mt-1">
+    <%== pagy_nav(pagy) %>
+  </div>
+<% end %>
